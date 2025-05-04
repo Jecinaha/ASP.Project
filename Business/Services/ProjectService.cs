@@ -1,14 +1,11 @@
 ﻿
-using Azure.Core;
 using Business.Dtos;
 using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Ïnterfaces;
 using Data.Models;
-using Data.Repositories;
 using Domain.Extensions;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Business.Services;
 
@@ -46,7 +43,8 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
     public async Task<ProjectResult<IEnumerable<Project>>> GetProjectsAsync()
     {
-        var response = await _projectRepository.GetAllAsync(orderByDescending: true, sortBy: s => s.Created, where: null, include => include.User, include => include.Status, include => include.Client);
+        //, include => include.User, include => include.Status, include => include.Client
+        var response = await _projectRepository.GetAllAsync(orderByDescending: true, sortBy: s => s.Created, where: null);
 
         return new ProjectResult<IEnumerable<Project>> { Succeeded = true, StatusCode = 200, Result = response.Result };
     }
@@ -54,11 +52,11 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
     public async Task<ProjectResult<Project>> GetProjectAsync(string id)
     {
         var response = await _projectRepository.GetAsync(
-            where: x => x.Id == id,
-            include => include.User,
-            include => include.Status,
-            include => include.Client
-            );
+            where: x => x.Id == id
+            //,include => include.User, 
+            //include => include.Status,
+            //include => include.Client
+        );
 
         return response.Succeeded
             ? new ProjectResult<Project> { Succeeded = true, StatusCode = 200, Result = response.Result }
@@ -92,10 +90,8 @@ public class ProjectService(IProjectRepository projectRepository) : IProjectServ
 
         var project = getResult.Result;
 
-
-        // TODO: Mappa project till projectEntity
-        //var deleteResult = await _projectRepository.DeleteAsync(project);
-        var deleteResult = await _projectRepository.DeleteAsync(null);
+        
+        var deleteResult = await _projectRepository.DeleteAsync(project.MapTo<ProjectEntity>());
 
         if (!deleteResult.Succeeded || !deleteResult.Result)
         {

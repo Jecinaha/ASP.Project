@@ -1,27 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.Models;
 
 public class AddProjectViewModel
 {
-
     public string ProjectImage { get; set; } = null!;
 
     public string ProjectName { get; set; } = null!;
 
     public string ClientName { get; set; } = null!;
 
-    public string Description { get; set; } = null!;
+    public string Sescription { get; set; } = null!;
 
-    public string TimeLeft { get; set; } = null!;
+    public DateTime? StartDate { get; set; } = null;
 
-    public IEnumerable<string> Members { get; set; } = [];
-    public IEnumerable<SelectListItem> Clients { get; set; } = [];
+    public DateTime? EndDate { get; set; } = null;
+    public decimal? Budget { get; set; } = null;
 
-    public IEnumerable<SelectListItem> Users { get; set; } = [];
+    public string ClientId { get; set; } = "";
 
-    public IEnumerable<SelectListItem> Statuses { get; set; } = [];
-
-
-
+    public string UserId { get; set; } = "";
+    public int StatusId { get; set; } = -1;
 }

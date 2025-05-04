@@ -1,5 +1,5 @@
 ﻿using Business.Dtos;
-using CloudinaryDotNet.Actions;
+using Business.Models;
 
 namespace Business.Interfaces
 {

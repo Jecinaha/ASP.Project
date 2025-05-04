@@ -23,17 +23,24 @@ public class SignUpController(IAuthService authService) : Controller
 
         ViewBag.ErrorMessage = null;
 
-        if (!ModelState.IsValid)
-            return View(model);
-
-        var signUpFormData = model.MapTo<SignUpFormData>();
-        var result = await _authService.SignUpAsync(signUpFormData);
-        if (result.Succeeded)
+        try
         {
-            return RedirectToAction("Login", "Login");
-        }
+            if (!ModelState.IsValid)
+                return View(model);
 
-        ViewBag.ErrorMessage = result.Error;
+            var signUpFormData = model.MapTo<SignUpFormData>();
+            var result = await _authService.SignUpAsync(signUpFormData);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            ViewBag.ErrorMessage = result.Error;
+        }
+        catch(Exception ex)
+        {
+            ViewBag.ErrorMessage = ex.Message;
+        }
         return View(model);
     }
    

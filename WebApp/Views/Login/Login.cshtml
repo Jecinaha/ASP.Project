@@ -3,8 +3,6 @@
 @{
     Layout = "_CenterWrapperLayout";
     ViewData["Title"] = " Log In";
-
-
 }
 
 <section id="login">
@@ -13,7 +11,7 @@
             <h1>@ViewData["Title"]</h1>
         </div>
         <div class="card-body">
-            <form method="post" asp-controller="" asp-action="" novalidate>
+            <form method="post" asp-controller="Login" asp-action="Login" novalidate>
                 <div class="form-group">
                     <label class="form-label" asp-for="Email"></label>
                     <input class="form-input" asp-for="Email" />
@@ -41,6 +39,6 @@
         </div>
 
 
-        <div class="card-footer">Don´t have an account? <a asp-controller="SignUp" asp-action="Index"> Sign Up</a></div>
+        <div class="card-footer">Don´t have an account? <a asp-controller="SignUp" asp-action="SignUp"> Sign Up</a></div>
     </div>
 </section>

@@ -1,12 +1,8 @@
-﻿
-
-using Business.Dtos;
+﻿using Business.Dtos;
 using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.SqlServer.Server;
 
 namespace Business.Services;
 
@@ -36,12 +32,10 @@ public class AuthService(IUserService userService, SignInManager<UserEntity> sig
         if (formData == null)
             return new AuthResult { Succeeded = false, StatusCode = 400, Error = "Form data is null." };
 
-        // TODO: Vad skulle användas här?
-        //var result = await _signInManager.CreateUserAsync(formData, formData.Password);
-        //return result.Succeeded
-        //   ? new AuthResult { Succeeded = true, StatusCode = 201 }
-        //   : new AuthResult { Succeeded = false, StatusCode = 400, Error = result.Error };
-        return null;
+        var result = await _userService.CreateUserAsync(formData);
+        return result.Succeeded
+           ? new AuthResult { Succeeded = true, StatusCode = 201 }
+           : new AuthResult { Succeeded = false, StatusCode = 400, Error = result.Error };
     }
 
 

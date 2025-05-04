@@ -14,9 +14,25 @@ public class ProjectsController(IProjectService projectService) : Controller
     public async Task<IActionResult> Projects()
     {
         var projects = await _projectService.GetProjectsAsync();
+        if (projects == null || projects.Result == null)
+        {
+            return NotFound();
+        }
+
         var model = new ProjectsViewModel
         {
-            Projects = projects.Result.MapTo<IEnumerable<ProjectViewModel>>(),
+            Projects = projects.Result.Select(x =>
+            {
+                return new ProjectViewModel
+                {
+                    Id = x.Id,
+                    ProjectImage = x.Image,
+                    ProjectName = x.ProjectName,
+                    ClientName = x.Client?.ClientName,
+                    Description = x.Sescription,
+                    TimeLeft = (x.EndDate - x.StartDate).Days.ToString(),
+                };
+            })
         };
         return View(model);
     }
@@ -25,26 +41,22 @@ public class ProjectsController(IProjectService projectService) : Controller
     public async Task<IActionResult> Add(AddProjectViewModel model)
     {
         var addProjectFormData = model.MapTo<AddProjectFormData>();
-
         var result = await _projectService.CreateProjectAsync(addProjectFormData);
-
-        return Json(new { });
+        return View();
     }
 
     [HttpPost]
     public async Task<IActionResult> Update(EditProjectViewModel model)
     {
         var updateProjectFormData = model.MapTo<UpdateProjectFormData>();
-
         var result = await _projectService.UpdateProjectAsync(updateProjectFormData.Id, updateProjectFormData);
-
-        return Json(new { });
+        return View();
     }
 
-    [HttpPost]
-    public IActionResult Delete(string id)
+    [HttpGet]
+    public async Task<IActionResult> Delete(string id)
     {
-
-        return Json(new { });
+        var result = await _projectService.DeleteProjectAsync(id);
+        return RedirectToAction("Projects", "Projects");
     }
 }

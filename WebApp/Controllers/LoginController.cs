@@ -20,7 +20,7 @@ public class LoginController(IAuthService authService) : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl ="~/")
+    public async Task<IActionResult> Login(LoginViewModel model, string returnUrl ="~/Projects/")
     {
 
         ViewBag.ErrorMessage = null;

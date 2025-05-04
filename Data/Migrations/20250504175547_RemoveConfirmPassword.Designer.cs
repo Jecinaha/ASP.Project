@@ -4,6 +4,7 @@ using Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250504175547_RemoveConfirmPassword")]
+    partial class RemoveConfirmPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,8 @@ namespace Data.Migrations
                     b.Property<decimal?>("Budget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ClientEntityId")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Created")
@@ -69,19 +73,20 @@ namespace Data.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("Date");
 
-                    b.Property<int?>("StatusEntityId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserEntityId")
+                    b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientEntityId");
+                    b.HasIndex("ClientId");
 
-                    b.HasIndex("StatusEntityId");
+                    b.HasIndex("StatusId");
 
-                    b.HasIndex("UserEntityId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -318,17 +323,29 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.ProjectEntity", b =>
                 {
-                    b.HasOne("Data.Entities.ClientEntity", null)
+                    b.HasOne("Data.Entities.ClientEntity", "Client")
                         .WithMany("Projects")
-                        .HasForeignKey("ClientEntityId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Data.Entities.StatusEntity", null)
+                    b.HasOne("Data.Entities.StatusEntity", "Status")
                         .WithMany("Projects")
-                        .HasForeignKey("StatusEntityId");
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Data.Entities.UserEntity", null)
+                    b.HasOne("Data.Entities.UserEntity", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("UserEntityId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Status");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

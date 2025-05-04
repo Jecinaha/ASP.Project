@@ -1,23 +1,20 @@
 ﻿
 
 using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
 using Business.Dtos;
 using Business.Interfaces;
 using Business.Models;
 using Data.Entities;
 using Data.Ïnterfaces;
-using Data.Models;
 using Domain.Extensions;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNetCore.Identity;
+
 
 namespace Business.Services;
 
-public class UserService(IUserRepository userRepository, SignInManager<UserEntity> userManager) : IUserService {
+public class UserService(IUserRepository userRepository, UserManager<UserEntity> userManager) : IUserService {
     private readonly IUserRepository _userRepository = userRepository;
-    private readonly SignInManager<UserEntity> _userManager = userManager;
+    private readonly UserManager<UserEntity> _userManager = userManager;
 
     public async Task<UserResult> GetUsersAsync()
     {
@@ -38,12 +35,12 @@ public class UserService(IUserRepository userRepository, SignInManager<UserEntit
         try
         {
             var userEntity = formData.MapTo<UserEntity>();
+            userEntity.UserName = userEntity.Email;
 
-            //var result = await _userManager.CreateAsync(userEntity, formData.Password);
-            //return result.Succeeded
-            //    ? new UserResult { Succeeded = true, StatusCode = 201 }
-            //    : new UserResult { Succeeded = false, StatusCode = 500, Error = "Unable to create user." };
-            return null;
+            var result = await _userManager.CreateAsync(userEntity, userEntity.Password);
+            return result.Succeeded
+                ? new UserResult { Succeeded = true, StatusCode = 201 }
+                : new UserResult { Succeeded = false, StatusCode = 500, Error = "Unable to create user." };
         }
         catch (Exception ex)
         {
@@ -51,8 +48,4 @@ public class UserService(IUserRepository userRepository, SignInManager<UserEntit
             return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
         }
     }
-}
-
-public interface IUserService
-{
 }

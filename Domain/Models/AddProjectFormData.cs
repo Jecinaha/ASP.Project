@@ -17,10 +17,11 @@ public class AddProjectFormData
 
     public decimal? Budget { get; set; }
 
-    public string ClientId { get; set; } = null!;
 
-    public string UserId { get; set; } = null!;
+    public string ClientId { get; set; } = "";
 
-    public int StatusId { get; set; }
+    public string UserId { get; set; } = "";
+
+    public int StatusId { get; set; } = -1;
 
 }
