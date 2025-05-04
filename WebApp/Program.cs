@@ -18,7 +18,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.LoginPath = "/Login/Index";
+    x.LoginPath = "/Login/Login";
     x.AccessDeniedPath = "/Login/AccessDenied";
     x.Cookie.HttpOnly = true;
     x.Cookie.IsEssential = true;
@@ -52,7 +52,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=SignUp}/{action=SignUp}/{id?}")
+    pattern: "{controller=Login}/{action=Login}/{id?}")
     .WithStaticAssets();
 
 app.Run();

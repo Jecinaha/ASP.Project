@@ -40,7 +40,7 @@ public class ProjectsController(IProjectService projectService) : Controller
     [HttpPost]
     public async Task<IActionResult> Add(AddProjectViewModel model)
     {
-        var addProjectFormData = model.MapTo<AddProjectFormData>();
+        AddProjectFormData addProjectFormData = model.MapTo<AddProjectFormData>();
         var result = await _projectService.CreateProjectAsync(addProjectFormData);
         return View();
     }
@@ -56,7 +56,7 @@ public class ProjectsController(IProjectService projectService) : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(string id)
     {
-        var result = await _projectService.DeleteProjectAsync(id);
+        Business.Models.ProjectResult result = await _projectService.DeleteProjectAsync(id);
         return RedirectToAction("Projects", "Projects");
     }
 }

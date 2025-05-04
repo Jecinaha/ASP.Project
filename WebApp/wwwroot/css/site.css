@@ -75,7 +75,7 @@
     --dot-red-background-color: var(--red);
     --dot-yellow-background-color: var(--yellow);
     --dot-green-background-color: var(--green);
-    --link-color: var(--text-color);
+    --link-color: var(--blue-accent);
     --link-hover-color: var(--blue-dark-accent);
     --navlink-text-color: var(--dark-400);
     ;
@@ -262,8 +262,6 @@ html, body {
 
 }
 
-
-
 .card {
     position: relative;
     background-color: var(--card-background-color);
@@ -431,7 +429,7 @@ html, body {
 
 {
     grid-area: logo;
-    padding: 1rem 3rem 1rem 1rem;
+    padding: 1rem;
     display: flex;
     border-right: 1px solid var(--border-color);
 }
@@ -439,13 +437,14 @@ html, body {
 .side {
     grid-area: side;
     border-right: 1px solid var(--border-color);
-    padding: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .top {
     grid-area: top;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 2rem;
+    padding-bottom: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -455,8 +454,7 @@ html, body {
 }
 
 .main {
-    grid-area: main;
-    padding: 2rem;
+    grid-area: main; 
 }
 
 }
@@ -512,7 +510,7 @@ h6 {
 }
 
 .nav-links {
-    margin: 2rem 0;
+    margin: 0;
 }
 
     .nav-links > .nav-link {
@@ -828,11 +826,11 @@ input[type="date"] {
     align-items: center;
     gap: 0.8rem;
     margin-bottom: 1rem;
+
     .form-label
 
 {
     font-weight: var(--font-regular);
-    margin-top: 2px;
     cursor: pointer;
 }
 
@@ -843,6 +841,7 @@ input[type="date"] {
     align-items: center;
     cursor: pointer;
     user-select: none;
+    
     .form-checkbox-input
 
 {
@@ -909,6 +908,7 @@ input[type="date"] {
 }
 
 
+
 #signup, #login {
     .card
 
@@ -935,11 +935,12 @@ input[type="date"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .remember-me, terms
 
+
+    .terms
 {
     display: flex;
-    align-items: center;
+    align-items: left;
     gap: 0.5rem;
 }
 
@@ -952,16 +953,17 @@ input[type="date"] {
 
 }
 
+
+
+
 #projects {
     padding: 2rem;
     .page-header
-
 {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
 }
 
 .btn {
