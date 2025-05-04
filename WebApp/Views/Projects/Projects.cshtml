@@ -1,7 +1,40 @@
-﻿@{
-	ViewData["Title"] = "projects";
-}
+﻿@model ProjectsViewModel
 
-<h2>
-	@ViewData["Title"]
-</h2>
+
+@{
+    ViewData["Title"] = "projects";
+}
+<section class="main">
+    <div id="projects" class="page">
+        <div class="page-header">
+            <h1>Projects</h1>
+            <button type="button" class="btn" data-type="modal" data-target="add-project-modal">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Project</span>
+            </button>
+        </div>
+
+        <div id="status-container" class="status">
+            <a href="#">ALL(0)</a>
+            <a href="#">STARTED(0)</a>
+            <a href="#">COMPLETED(0)</a>
+        </div>
+        <section id="projects-list" class="project-list">
+            @if (Model.Projects != null && Model.Projects.Any())
+            {
+                @foreach (var project in Model.Projects)
+                {
+                    @await Html.PartialAsync("Partials/Components/_ProjectListPartial", project)
+                }
+                
+
+            }
+
+           
+			
+        </section>
+    </div>
+</section>
+
+@await Html.PartialAsync("Modals/_AddProjectModalPartial", Model.AddProjectFormData)
+@await Html.PartialAsync("Modals/_EditProjectModalPartial", Model.EditProjectFormData)

@@ -1,0 +1,52 @@
+﻿@model ProjectViewModel
+
+<div class="card project" data-project-id="@Model.Id">
+    <div class="card-header">
+        <div class="project-image">
+            <img src="@Model.ProjectImage" alt="project image">
+        </div>
+        <h6 class="project-name">@Model.ProjectName</h6>
+        <span class="client-name">@Model.ClientName</span>
+
+        <div id="project-actions-container">
+            <button type="button" class="btn-actions" data-type="dropdown" data-target="project-dropdown-@Model.Id">
+                <i class="fa-solid fa-ellipsis"></i>
+            </button>
+
+            <div id="project-dropdown-@Model.Id" class="dropdown">
+                <nav class="dropdown-actions dropdown-body">
+                    <a data-type="modal" data-target="edit-project-modal" class="dropdown-action">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span>Edit</span>
+                    </a>
+                </nav>
+                <div class="divider"></div>
+                <nav class="dropdown-actions dropdown-footer">
+                    <a class="dropdown-action remove" href="">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span class="delete-project">Delete</span>
+                    </a>
+                </nav>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="card-body">
+        <p>@Html.Raw(Model.Description)</p>
+    </div>
+
+    <div class="card-footer">
+        <div class="badge badge-danger time">
+            <i class="fa-solid fa-clock"></i>
+            <span>One week left</span>
+        </div>
+        <div class="card-members">
+            <div class="user-image">
+                <img src="/images/avatar.svg" alt="avatar image">
+            </div>
+        </div>
+    </div>
+
+
+</div>
